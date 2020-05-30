@@ -13,6 +13,8 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
         primaryStage.setTitle("Nrs Client");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setMinHeight(400);
+        primaryStage.setMinWidth(600);
         primaryStage.show();
     }
 
