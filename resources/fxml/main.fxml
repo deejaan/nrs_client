@@ -57,6 +57,7 @@
                                          text="Date created"/>
                             <TableColumn fx:id="orderUserColumn" minWidth="125.0" prefWidth="125.0" text="User"/>
                             <TableColumn fx:id="orderCouponColumn" minWidth="125.0" prefWidth="125.0" text="Coupon"/>
+                            <TableColumn fx:id="orderStatusColumn" minWidth="125.0" prefWidth="125.0" text="Status"/>
                         </columns>
                     </TableView>
                 </GridPane>
@@ -136,7 +137,50 @@
                 </GridPane>
             </Tab>
             <Tab fx:id="usersTab" text="Users">
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                <GridPane vgap="10.0">
+                    <rowConstraints>
+                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="NEVER"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+                    </rowConstraints>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                        <ChoiceBox fx:id="filterUsersChoiceBox" prefWidth="150.0"/>
+                        <Button fx:id="addUserButton" mnemonicParsing="false" text="Add User">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="editUserButton" mnemonicParsing="false" text="Edit User">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="deleteUserButton" mnemonicParsing="false" text="Delete User">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                    </HBox>
+                    <TableView fx:id="usersTable" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                        <columns>
+                            <TableColumn fx:id="userNumberColumn" minWidth="30.0" prefWidth="30.0" text="#"/>
+                            <TableColumn fx:id="userIdColumn" prefWidth="75.0" text="ID"/>
+                            <TableColumn fx:id="userFirstNameColumn" minWidth="125.0" prefWidth="125.0"
+                                         text="First name"/>
+                            <TableColumn fx:id="userLastNameColumn" minWidth="125.0" prefWidth="125.0"
+                                         text="Last name"/>
+                            <TableColumn fx:id="userEmailColumn" minWidth="125.0" prefWidth="125.0" text="Email"/>
+                            <TableColumn fx:id="userUsernameColumn" minWidth="125.0" prefWidth="125.0" text="Username"/>
+                            <TableColumn fx:id="userAddressColumn" minWidth="125.0" prefWidth="125.0" text="Address"/>
+                            <TableColumn fx:id="userRoleColumn" minWidth="125.0" prefWidth="125.0" text="Role"/>
+                        </columns>
+                    </TableView>
+                </GridPane>
             </Tab>
             <Tab fx:id="reportTab" text="Report">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
