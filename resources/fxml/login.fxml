@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity"
+          minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="310.0" vgap="10.0"
+          xmlns="http://javafx.com/javafx/10.0.2-internal">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
+        <ColumnConstraints hgrow="NEVER" minWidth="10.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="NEVER"/>
+        <RowConstraints vgrow="NEVER"/>
+        <RowConstraints vgrow="NEVER"/>
+        <RowConstraints prefHeight="50.0" vgrow="NEVER"/>
+    </rowConstraints>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
+    <Label text="Log In" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER">
+        <font>
+            <Font name="System Bold" size="13.0"/>
+        </font>
+    </Label>
+    <Label text="Username:" GridPane.rowIndex="1"/>
+    <Label text="Password:" GridPane.rowIndex="2"/>
+    <Button fx:id="logInButton" mnemonicParsing="false" prefWidth="100.0" text="Log In"
+            GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+    <PasswordField fx:id="passwordTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <TextField fx:id="usernameTextField" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+</GridPane>
