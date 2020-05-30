@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="400.0"
+            minWidth="600.0" prefHeight="700.0" prefWidth="1000.0"
+            xmlns="http://javafx.com/javafx/10.0.2-internal">
+    <center>
+        <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
+                 BorderPane.alignment="CENTER">
+            <Tab fx:id="ordersTab" text="Orders">
+                <GridPane vgap="10.0">
+                    <rowConstraints>
+                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="NEVER"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+                    </rowConstraints>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <HBox fx:id="deleteOrderButton" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                        <ChoiceBox fx:id="filterOrdersChoiceBox" prefWidth="150.0"/>
+                        <Button fx:id="orderDetailsButton" mnemonicParsing="false" text="Order Details">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="addOrderButton" mnemonicParsing="false" text="Add Order">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="editOrderButton" mnemonicParsing="false" text="Edit Order">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Delete Order">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="completeOrderButton" mnemonicParsing="false" text="Complete Order">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                    </HBox>
+                    <TableView fx:id="ordersTable" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                        <columns>
+                            <TableColumn fx:id="orderNumberColumn" minWidth="30.0" prefWidth="30.0" text="#"/>
+                            <TableColumn fx:id="orderIdColumn" prefWidth="75.0" text="ID"/>
+                            <TableColumn fx:id="orderDateColumn" minWidth="125.0" prefWidth="125.0"
+                                         text="Date created"/>
+                            <TableColumn fx:id="orderUserColumn" minWidth="125.0" prefWidth="125.0" text="User"/>
+                            <TableColumn fx:id="orderCouponColumn" minWidth="125.0" prefWidth="125.0" text="Coupon"/>
+                        </columns>
+                    </TableView>
+                </GridPane>
+            </Tab>
+            <Tab fx:id="productsTab" text="Products">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+            </Tab>
+            <Tab fx:id="categoriesTab" text="Categories">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+            </Tab>
+            <Tab fx:id="usersTab" text="Users">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+            </Tab>
+            <Tab fx:id="reportTab" text="Report">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+            </Tab>
+        </TabPane>
+    </center>
+</BorderPane>
