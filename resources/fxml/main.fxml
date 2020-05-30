@@ -22,7 +22,7 @@
                     <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                     </padding>
-                    <HBox fx:id="deleteOrderButton" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                         <ChoiceBox fx:id="filterOrdersChoiceBox" prefWidth="150.0"/>
                         <Button fx:id="orderDetailsButton" mnemonicParsing="false" text="Order Details">
                             <HBox.margin>
@@ -39,7 +39,7 @@
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Delete Order">
+                        <Button fx:id="deleteOrderButton" mnemonicParsing="false" text="Delete Order">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
@@ -63,7 +63,48 @@
                 </GridPane>
             </Tab>
             <Tab fx:id="productsTab" text="Products">
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                <GridPane vgap="10.0">
+                    <rowConstraints>
+                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="NEVER"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS"/>
+                    </rowConstraints>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                        <ChoiceBox fx:id="filterProductsChoiceBox" prefWidth="150.0"/>
+                        <Button fx:id="addProductButton" mnemonicParsing="false" text="Add Product">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="editProductButton" mnemonicParsing="false" text="Edit Product">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Delete Product">
+                            <HBox.margin>
+                                <Insets left="10.0"/>
+                            </HBox.margin>
+                        </Button>
+                    </HBox>
+                    <TableView fx:id="productsTable" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                        <columns>
+                            <TableColumn fx:id="productNumberColumn" minWidth="30.0" prefWidth="30.0" text="#"/>
+                            <TableColumn fx:id="productIdColumn" prefWidth="75.0" text="ID"/>
+                            <TableColumn fx:id="productNameColumn" minWidth="200.0" prefWidth="200.0" text="Product"/>
+                            <TableColumn fx:id="productDescriptionColumn" minWidth="200.0" prefWidth="200.0"
+                                         text="Description"/>
+                            <TableColumn fx:id="productCategoryColumn" minWidth="125.0" prefWidth="125.0"
+                                         text="Category"/>
+                            <TableColumn fx:id="productPriceColumn" minWidth="125.0" prefWidth="125.0" text="Price"/>
+                        </columns>
+                    </TableView>
+                </GridPane>
             </Tab>
             <Tab fx:id="categoriesTab" text="Categories">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
