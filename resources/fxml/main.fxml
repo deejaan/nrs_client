@@ -4,13 +4,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="400.0" minWidth="600.0" prefHeight="700.0" prefWidth="1000.0"
-            xmlns="http://javafx.com/javafx/10.0.2-internal"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0"
+            minWidth="600.0" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="ba.unsa.etf.nrs.client.Controller">
     <center>
-        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
-                 BorderPane.alignment="CENTER">
+        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <Tab text="Orders">
                 <GridPane vgap="10.0">
                     <rowConstraints>
@@ -40,7 +38,7 @@
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="deleteOrderButton" mnemonicParsing="false" text="Delete Order">
+                        <Button mnemonicParsing="false" text="Delete Order" onAction="#deleteOrder">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
@@ -88,7 +86,7 @@
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Delete Product">
+                        <Button mnemonicParsing="false" text="Delete Product" onAction="#deleteProduct">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
@@ -130,11 +128,15 @@
                             <Insets/>
                         </GridPane.margin>
                     </ListView>
-                    <Label text="Category List"/>
+                    <Label text="Category List">
+                        <font>
+                            <Font name="System Bold" size="13.0"/>
+                        </font>
+                    </Label>
                     <Button fx:id="editCategoryButton" mnemonicParsing="false" prefWidth="125.0" text="Edit Category"
                             GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                    <Button fx:id="deleteCategoryButton" mnemonicParsing="false" prefWidth="125.0"
-                            text="Delete Category" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    <Button mnemonicParsing="false" prefWidth="125.0" text="Delete Category" GridPane.columnIndex="1"
+                            GridPane.rowIndex="3" onAction="#deleteCategory"/>
                     <Button fx:id="addCategoryButton" mnemonicParsing="false" prefWidth="125.0" text="Add Category"
                             GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1"/>
                 </GridPane>
@@ -163,7 +165,7 @@
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="deleteUserButton" mnemonicParsing="false" text="Delete User">
+                        <Button mnemonicParsing="false" text="Delete User" onAction="#deleteUser">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>

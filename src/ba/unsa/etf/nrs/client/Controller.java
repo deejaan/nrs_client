@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -39,12 +40,10 @@ public class Controller implements Initializable {
     public TableColumn<Product, Category> productCategoryColumn;
     public TableColumn<Product, Double> productPriceColumn;
     public Button editCategoryButton;
-    public Button deleteCategoryButton;
     public Button addCategoryButton;
     public ChoiceBox<String> filterUsersChoiceBox;
     public Button addUserButton;
     public Button editUserButton;
-    public Button deleteUserButton;
     public TableView<User> usersTable;
     public TableColumn<User, Integer> userNumberColumn;
     public TableColumn<User, Integer> userIdColumn;
@@ -125,6 +124,8 @@ public class Controller implements Initializable {
                 Platform.runLater(() -> {
                     categoriesListView.setItems(categories);
                     categoriesListView.refresh();
+                    filterProductsChoiceBox.setItems(categories);
+                    filterProductsChoiceBox.getSelectionModel().selectFirst();
                 });
             } catch (Exception e) {
                 e.printStackTrace();
@@ -160,5 +161,96 @@ public class Controller implements Initializable {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    public void deleteUser() {
+        User selectedUser = usersTable.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) return;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm deletion");
+        alert.setHeaderText("Deleting user \"" + selectedUser.toString() + "\"!");
+        alert.setContentText("Are you sure you want to delete user \"" + selectedUser.toString() + "\" ?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            new Thread(() -> {
+                try {
+                    RestService restService = new RestService();
+                    restService.deleteUser(selectedUser);
+                    refreshData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+    }
+
+    public void deleteCategory() {
+        Category selectedCategory = categoriesListView.getSelectionModel().getSelectedItem();
+        if (selectedCategory == null) return;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm deletion");
+        alert.setHeaderText("Deleting category \"" + selectedCategory.toString() + "\"!");
+        alert.setContentText("Are you sure you want to delete category \"" + selectedCategory.toString() + "\" ?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            new Thread(() -> {
+                try {
+                    RestService restService = new RestService();
+                    restService.deleteCategory(selectedCategory);
+                    refreshData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+    }
+
+    public void deleteProduct() {
+        Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct == null) return;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm deletion");
+        alert.setHeaderText("Deleting product \"" + selectedProduct.toString() + "\"!");
+        alert.setContentText("Are you sure you want to delete product \"" + selectedProduct.toString() + "\" ?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            new Thread(() -> {
+                try {
+                    RestService restService = new RestService();
+                    restService.deleteProduct(selectedProduct);
+                    refreshData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+    }
+
+    public void deleteOrder() {
+        Order selectedOrder = ordersTable.getSelectionModel().getSelectedItem();
+        if (selectedOrder == null) return;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm deletion");
+        alert.setHeaderText("Deleting order \"" + selectedOrder.toString());
+        alert.setContentText("Are you sure you want to delete order \"" + selectedOrder.toString() + "\" ?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            new Thread(() -> {
+                try {
+                    RestService restService = new RestService();
+                    restService.deleteOrder(selectedOrder);
+                    refreshData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+    }
+
+    public void refreshData() {
+        getUsers();
+        getCategories();
+        getProducts();
+        getOrders();
     }
 }

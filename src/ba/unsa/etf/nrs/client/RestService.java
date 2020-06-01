@@ -16,15 +16,12 @@ import java.util.Objects;
 public class RestService {
     public static final String ROOT = "http://localhost:8080";
 
-    public static String getJSON(String url) {
+    private static String getJSON(String url) {
         HttpURLConnection con = null;
         try {
             URL u = new URL(url);
             con = (HttpURLConnection) u.openConnection();
-
             con.connect();
-
-
             BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
             StringBuilder sb = new StringBuilder();
             String line;
@@ -33,8 +30,6 @@ public class RestService {
             }
             br.close();
             return sb.toString();
-
-
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -121,7 +116,11 @@ public class RestService {
             product.setDescription(object.getString("description"));
             product.setName(object.getString("name"));
             product.setPrice(object.getDouble("price"));
-            product.setCategory(getCategory(object.getInt("categoryId")));
+            try {
+                product.setCategory(getCategory(object.getInt("categoryId")));
+            } catch (Exception e) {
+                product.setCategory(null);
+            }
             products.add(product);
         }
         return products;
@@ -135,7 +134,11 @@ public class RestService {
             product.setDescription(jsonObject.getString("description"));
             product.setName(jsonObject.getString("name"));
             product.setPrice(jsonObject.getDouble("price"));
-            product.setCategory(getCategory(jsonObject.getInt("categoryId")));
+            try {
+                product.setCategory(getCategory(jsonObject.getInt("categoryId")));
+            } catch (Exception e) {
+                product.setCategory(null);
+            }
             return product;
         } catch (Exception e) {
             return null;
@@ -165,7 +168,11 @@ public class RestService {
             OrderItem orderItem = new OrderItem();
             orderItem.setId(object.getInt("id"));
             orderItem.setQuantity(object.getInt("quantity"));
-            orderItem.setProduct(getProduct(object.getJSONObject("product").getInt("id")));
+            try {
+                orderItem.setProduct(getProduct(object.getJSONObject("product").getInt("id")));
+            } catch (Exception e) {
+                orderItem.setProduct(null);
+            }
             orderItems.add(orderItem);
         }
         return orderItems;
@@ -182,10 +189,98 @@ public class RestService {
             order.setOrderDate(LocalDateTime.parse(object.getString("orderDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
             order.setOrderItems(getOrderItems(object.getInt("id")));
             order.setCoupon(getCoupon(object.getJSONObject("coupon").getInt("id")));
-            order.setUser(getUser(object.getJSONObject("user").getInt("id")));
+            try {
+                order.setUser(getUser(object.getJSONObject("user").getInt("id")));
+            } catch (Exception e) {
+                order.setUser(null);
+            }
             orders.add(order);
         }
         return orders;
     }
 
+    public void deleteUser(User user) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/user/" + user.getId());
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("DELETE");
+            con.connect();
+            con.getResponseCode();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    public void deleteCategory(Category category) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/category/" + category.getId());
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("DELETE");
+            con.connect();
+            con.getResponseCode();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void deleteProduct(Product product) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/product/" + product.getId());
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("DELETE");
+            con.connect();
+            con.getResponseCode();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void deleteOrder(Order order) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/order/" + order.getId());
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("DELETE");
+            con.connect();
+            con.getResponseCode();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
 }
