@@ -51,7 +51,6 @@
                     </HBox>
                     <TableView fx:id="ordersTable" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                         <columns>
-                            <TableColumn fx:id="orderNumberColumn" minWidth="30.0" prefWidth="30.0" text="#"/>
                             <TableColumn fx:id="orderIdColumn" prefWidth="75.0" text="ID"/>
                             <TableColumn fx:id="orderDateColumn" minWidth="125.0" prefWidth="125.0"
                                          text="Date created"/>
@@ -94,7 +93,6 @@
                     </HBox>
                     <TableView fx:id="productsTable" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                         <columns>
-                            <TableColumn fx:id="productNumberColumn" minWidth="30.0" prefWidth="30.0" text="#"/>
                             <TableColumn fx:id="productIdColumn" prefWidth="75.0" text="ID"/>
                             <TableColumn fx:id="productNameColumn" minWidth="200.0" prefWidth="200.0" text="Product"/>
                             <TableColumn fx:id="productDescriptionColumn" minWidth="200.0" prefWidth="200.0"
@@ -174,7 +172,6 @@
                     </HBox>
                     <TableView fx:id="usersTable" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                         <columns>
-                            <TableColumn fx:id="userNumberColumn" minWidth="30.0" prefWidth="30.0" text="#"/>
                             <TableColumn fx:id="userIdColumn" prefWidth="75.0" text="ID"/>
                             <TableColumn fx:id="userFirstNameColumn" minWidth="125.0" prefWidth="125.0"
                                          text="First name"/>

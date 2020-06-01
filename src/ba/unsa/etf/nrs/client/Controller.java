@@ -27,17 +27,13 @@ public class Controller implements Initializable {
     public Button editOrderButton;
     public Button completeOrderButton;
     public TableView<Order> ordersTable;
-    public TableColumn<Order, Integer> orderNumberColumn;
     public TableColumn<Order, Integer> orderIdColumn;
     public TableColumn<Order, LocalDateTime> orderDateColumn;
     public TableColumn<Order, User> orderUserColumn;
     public TableColumn<Order, Coupon> orderCouponColumn;
     public TableColumn<Order, Boolean> orderStatusColumn;
     public ChoiceBox<Category> filterProductsChoiceBox;
-    public Button addProductButton;
-    public Button editProductButton;
     public TableView<Product> productsTable;
-    public TableColumn<Product, Integer> productNumberColumn;
     public TableColumn<Product, Integer> productIdColumn;
     public TableColumn<Product, String> productNameColumn;
     public TableColumn<Product, String> productDescriptionColumn;
@@ -47,14 +43,13 @@ public class Controller implements Initializable {
     public Button addUserButton;
     public Button editUserButton;
     public TableView<User> usersTable;
-    public TableColumn<User, Integer> userNumberColumn;
     public TableColumn<User, Integer> userIdColumn;
     public TableColumn<User, String> userFirstNameColumn;
     public TableColumn<User, String> userLastNameColumn;
     public TableColumn<User, String> userEmailColumn;
     public TableColumn<User, String> userUsernameColumn;
     public TableColumn<User, String> userAddressColumn;
-    public TableColumn<User, Integer> userRoleColumn;
+    public TableColumn<User, String> userRoleColumn;
     public ListView<Category> categoriesListView;
     public Button generateUserReportButton;
     public Button generateProductReportButton;
@@ -75,27 +70,32 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         productIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        productNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         productCategoryColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getCategory()));
         productNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
         productDescriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
         productPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        userNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         userIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        userRoleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
+        userRoleColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getRole().toString()));
         userFirstNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getFirstName()));
         userLastNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getLastName()));
         userEmailColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmail()));
         userUsernameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUsername()));
         userAddressColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAddress()));
 
-        orderNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         orderCouponColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getCoupon()));
         orderUserColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getUser()));
         orderDateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getOrderDate()));
         orderStatusColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().isCompleted()));
+
+        ObservableList<String> roles = FXCollections.observableArrayList(new ArrayList<>());
+        roles.add("All");
+        for (Role role : Role.values()) {
+            roles.addAll(role.toString());
+        }
+        filterUsersChoiceBox.setItems(roles);
+        filterUsersChoiceBox.getSelectionModel().selectFirst();
 
         getUsers();
         getCategories();

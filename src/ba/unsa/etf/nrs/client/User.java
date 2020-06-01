@@ -3,12 +3,13 @@ package ba.unsa.etf.nrs.client;
 import javafx.beans.property.SimpleStringProperty;
 
 public class User {
-    int id, role;
+    int id;
+    Role role;
     SimpleStringProperty firstName, lastName, username, email, address;
 
     public User() {
         this.id = 0;
-        this.role = 0;
+        this.role = Role.CLIENT;
         this.firstName = new SimpleStringProperty("");
         this.lastName = new SimpleStringProperty("lastName");
         this.username = new SimpleStringProperty("username");
@@ -16,7 +17,7 @@ public class User {
         this.address = new SimpleStringProperty("address");
     }
 
-    public User(int id, int role, String firstName, String lastName, String username, String email, String address) {
+    public User(int id, Role role, String firstName, String lastName, String username, String email, String address) {
         this.id = id;
         this.role = role;
         this.firstName = new SimpleStringProperty(firstName);
@@ -34,11 +35,11 @@ public class User {
         this.id = id;
     }
 
-    public int getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

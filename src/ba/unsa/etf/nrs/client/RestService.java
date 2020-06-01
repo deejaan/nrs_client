@@ -55,7 +55,12 @@ public class RestService {
             user.setLastName(object.getString("lastName"));
             user.setFirstName(object.getString("name"));
             user.setEmail(object.getString("email"));
-            user.setRole(object.getInt("role"));
+            int role = object.getInt("role");
+            if (role == 2) {
+                user.setRole(Role.MANAGER);
+            } else if (role == 1) {
+                user.setRole(Role.EMPLOYEE);
+            } else user.setRole(Role.CLIENT);
             user.setUsername(object.getString("username"));
             user.setAddress(object.getString("address"));
             users.add(user);
@@ -71,7 +76,12 @@ public class RestService {
             user.setLastName(jsonObject.getString("lastName"));
             user.setFirstName(jsonObject.getString("name"));
             user.setEmail(jsonObject.getString("email"));
-            user.setRole(jsonObject.getInt("role"));
+            int role = jsonObject.getInt("role");
+            if (role == 2) {
+                user.setRole(Role.MANAGER);
+            } else if (role == 1) {
+                user.setRole(Role.EMPLOYEE);
+            } else user.setRole(Role.CLIENT);
             user.setUsername(jsonObject.getString("username"));
             user.setAddress(jsonObject.getString("address"));
             return user;
