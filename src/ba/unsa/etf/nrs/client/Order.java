@@ -12,6 +12,12 @@ public class Order {
     boolean completed;
 
     public Order() {
+        this.id = 0;
+        this.orderItems = new ArrayList<>();
+        this.user = null;
+        this.coupon = null;
+        this.orderDate = LocalDateTime.now();
+        this.completed = false;
     }
 
     public Order(int id, ArrayList<OrderItem> orderItems, User user, Coupon coupon, LocalDateTime orderDate, boolean completed) {

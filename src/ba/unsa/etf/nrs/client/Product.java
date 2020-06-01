@@ -10,6 +10,11 @@ public class Product {
     SimpleDoubleProperty price;
 
     public Product() {
+        this.id = 0;
+        this.category = null;
+        this.name = new SimpleStringProperty("");
+        this.description = new SimpleStringProperty("");
+        this.price = new SimpleDoubleProperty(0);
     }
 
     public Product(int id, Category category, String name, String description, double price) {

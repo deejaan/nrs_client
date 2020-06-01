@@ -7,6 +7,9 @@ public class Category {
     SimpleStringProperty name, description;
 
     public Category() {
+        this.id = 0;
+        this.name = new SimpleStringProperty("");
+        this.description = new SimpleStringProperty("");
     }
 
     public Category(int id, String name, String description) {

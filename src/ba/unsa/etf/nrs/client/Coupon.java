@@ -13,6 +13,11 @@ public class Coupon {
     boolean used;
 
     public Coupon() {
+        this.id = 0;
+        this.discount = new SimpleDoubleProperty(0);
+        this.code = new SimpleStringProperty("");
+        this.expiryDate = LocalDateTime.now();
+        this.used = false;
     }
 
     public Coupon(int id, double discount, String code, LocalDateTime expiryDate, boolean used) {

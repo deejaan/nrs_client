@@ -7,6 +7,13 @@ public class User {
     SimpleStringProperty firstName, lastName, username, email, address;
 
     public User() {
+        this.id = 0;
+        this.role = 0;
+        this.firstName = new SimpleStringProperty("");
+        this.lastName = new SimpleStringProperty("lastName");
+        this.username = new SimpleStringProperty("username");
+        this.email = new SimpleStringProperty("email");
+        this.address = new SimpleStringProperty("address");
     }
 
     public User(int id, int role, String firstName, String lastName, String username, String email, String address) {
