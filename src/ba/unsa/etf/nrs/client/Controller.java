@@ -1,10 +1,17 @@
 package ba.unsa.etf.nrs.client;
 
+import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -58,92 +65,100 @@ public class Controller implements Initializable {
     public RadioButton salesNoRadio;
     public RadioButton ordersYesRadio;
     public RadioButton ordersNoRadio;
+    public ObservableList<User> users = FXCollections.observableArrayList(new ArrayList<>());
+    public ObservableList<Category> categories = FXCollections.observableArrayList(new ArrayList<>());
+    private ObservableList<Product> products = FXCollections.observableArrayList(new ArrayList<>());
+    private ObservableList<Order> orders = FXCollections.observableArrayList(new ArrayList<>());
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        User user1 = new User(1, 1, "First Name 1", "Last Name 1", "Username 1", "Email 1", "Address 1");
-//        User user2 = new User(2, 1, "First Name 2", "Last Name 2", "Username 2", "Email 2", "Address 2");
-//        User user3 = new User(3, 2, "First Name 3", "Last Name 3", "Username 3", "Email 3", "Address 3");
-//        ArrayList<User> users = new ArrayList<>();
-//        users.add(user1);
-//        users.add(user2);
-//        users.add(user3);
-//        ObservableList<User> userObs = FXCollections.observableArrayList(users);
-//        Category category1 = new Category(1, "Category 1", "Description 1");
-//        Category category2 = new Category(2, "Category 2", "Description 2");
-//        Category category3 = new Category(3, "Category 3", "Description 3");
-//        ArrayList<Category> categories = new ArrayList<>();
-//        categories.add(category1);
-//        categories.add(category2);
-//        categories.add(category3);
-//        ObservableList<Category> categoryObs = FXCollections.observableArrayList(categories);
-//        categoriesListView.setItems(categoryObs);
-//
-//        filterProductsChoiceBox.setItems(categoryObs);
-//
-//        filterProductsChoiceBox.getSelectionModel().select(0);
-//
-//        Product product1 = new Product(1, category1, "Product 1", "Description 1", 10.0);
-//        Product product2 = new Product(1, category2, "Product 2", "Description 2", 20.0);
-//        Product product3 = new Product(1, category3, "Product 3", "Description 3", 30.0);
-//
-//        ArrayList<Product> products = new ArrayList<>();
-//        products.add(product1);
-//        products.add(product2);
-//        products.add(product3);
-//
-//        ObservableList<Product> productObs = FXCollections.observableArrayList(products);
-//
-//        productsTable.setItems(productObs);
-//        productIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        productNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        productCategoryColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getCategory()));
-//        productNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
-//        productDescriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
-//        productPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-//
-//        usersTable.setItems(userObs);
-//        userNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        userIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        userRoleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
-//        userFirstNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getFirstName()));
-//        userLastNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getLastName()));
-//        userEmailColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmail()));
-//        userUsernameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUsername()));
-//        userAddressColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAddress()));
-//
-//
-//        OrderItem orderItem1 = new OrderItem(1, 1, product1);
-//        OrderItem orderItem2 = new OrderItem(2, 2, product2);
-//        OrderItem orderItem3 = new OrderItem(3, 3, product3);
-//
-//        Coupon coupon1 = new Coupon(1, 10, "Coupon 1", LocalDateTime.now(), false);
-//        Coupon coupon2 = new Coupon(2, 20, "Coupon 2", LocalDateTime.now(), false);
-//        Coupon coupon3 = new Coupon(3, 30, "Coupon 3", LocalDateTime.now(), true);
-//
-//        ArrayList<OrderItem> orderItems = new ArrayList<>();
-//        orderItems.add(orderItem1);
-//        orderItems.add(orderItem2);
-//        orderItems.add(orderItem3);
-//
-//        Order order1 = new Order(1, orderItems, user1, coupon1, LocalDateTime.now(), false);
-//        Order order2 = new Order(2, orderItems, user2, coupon2, LocalDateTime.now(), false);
-//        Order order3 = new Order(3, orderItems, user3, coupon3, LocalDateTime.now(), true);
-//
-//
-//        ArrayList<Order> orders = new ArrayList<>();
-//        orders.add(order1);
-//        orders.add(order2);
-//        orders.add(order3);
-//        ObservableList<Order> ordersObs = FXCollections.observableArrayList(orders);
-//        ordersTable.setItems(ordersObs);
-//        orderNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        orderCouponColumn.setCellValueFactory(data-> new SimpleObjectProperty<>(data.getValue().getCoupon()));
-//        orderUserColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getUser()));
-//        orderDateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getOrderDate()));
-//        orderStatusColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().isCompleted()));
+        productIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        productNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        productCategoryColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getCategory()));
+        productNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+        productDescriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
+        productPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+        userNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        userIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        userRoleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
+        userFirstNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getFirstName()));
+        userLastNameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getLastName()));
+        userEmailColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmail()));
+        userUsernameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUsername()));
+        userAddressColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAddress()));
+
+        orderNumberColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        orderIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        orderCouponColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getCoupon()));
+        orderUserColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getUser()));
+        orderDateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getOrderDate()));
+        orderStatusColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().isCompleted()));
+
+        getUsers();
+        getCategories();
+        getProducts();
+        getOrders();
+    }
+
+    public void getUsers() {
+        new Thread(() -> {
+            try {
+                RestService restService = new RestService();
+                this.users = FXCollections.observableArrayList(restService.getUsers());
+                Platform.runLater(() -> {
+                    usersTable.setItems(users);
+                    usersTable.refresh();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public void getCategories() {
+        new Thread(() -> {
+            try {
+                RestService restService = new RestService();
+                this.categories = FXCollections.observableArrayList(restService.getCategories());
+                Platform.runLater(() -> {
+                    categoriesListView.setItems(categories);
+                    categoriesListView.refresh();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public void getProducts() {
+        new Thread(() -> {
+            try {
+                RestService restService = new RestService();
+                this.products = FXCollections.observableArrayList(restService.getProducts());
+                Platform.runLater(() -> {
+                    productsTable.setItems(products);
+                    productsTable.refresh();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public void getOrders() {
+        new Thread(() -> {
+            try {
+                RestService restService = new RestService();
+                this.orders = FXCollections.observableArrayList(restService.getOrders());
+                Platform.runLater(() -> {
+                    ordersTable.setItems(orders);
+                    ordersTable.refresh();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
