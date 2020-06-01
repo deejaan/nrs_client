@@ -55,10 +55,11 @@ public class RestService {
             user.setLastName(object.getString("lastName"));
             user.setFirstName(object.getString("name"));
             user.setEmail(object.getString("email"));
+            user.setPassword(object.getString("password"));
             int role = object.getInt("role");
-            if (role == 2) {
+            if (role == 3) {
                 user.setRole(Role.MANAGER);
-            } else if (role == 1) {
+            } else if (role == 2) {
                 user.setRole(Role.EMPLOYEE);
             } else user.setRole(Role.CLIENT);
             user.setUsername(object.getString("username"));
@@ -76,10 +77,11 @@ public class RestService {
             user.setLastName(jsonObject.getString("lastName"));
             user.setFirstName(jsonObject.getString("name"));
             user.setEmail(jsonObject.getString("email"));
+            user.setPassword(jsonObject.getString("password"));
             int role = jsonObject.getInt("role");
-            if (role == 2) {
+            if (role == 3) {
                 user.setRole(Role.MANAGER);
-            } else if (role == 1) {
+            } else if (role == 2) {
                 user.setRole(Role.EMPLOYEE);
             } else user.setRole(Role.CLIENT);
             user.setUsername(jsonObject.getString("username"));
@@ -418,6 +420,87 @@ public class RestService {
             os.writeBytes(jsonParam.toString());
 
             con.getResponseMessage();
+            os.flush();
+            os.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void addUser(User user) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/user/");
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoInput(true);
+            con.setDoOutput(true);
+
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("name", user.getFirstName());
+            jsonParam.put("lastName", user.getLastName());
+            jsonParam.put("address", user.getAddress());
+            jsonParam.put("username", user.getUsername());
+            jsonParam.put("password", user.getPassword());
+            jsonParam.put("email", user.getEmail());
+            if (user.getRole().equals(Role.MANAGER)) jsonParam.put("role", 3);
+            else if (user.getRole().equals(Role.EMPLOYEE)) jsonParam.put("role", 2);
+            else jsonParam.put("role", 1);
+            DataOutputStream os = new DataOutputStream(con.getOutputStream());
+            os.writeBytes(jsonParam.toString());
+
+            System.out.println(con.getResponseMessage());
+            os.flush();
+            os.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void editUser(User user) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/user/" + user.getId());
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("PUT");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoInput(true);
+            con.setDoOutput(true);
+
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("name", user.getFirstName());
+            jsonParam.put("lastName", user.getLastName());
+            jsonParam.put("address", user.getAddress());
+            jsonParam.put("username", user.getUsername());
+            jsonParam.put("password", user.getPassword());
+            jsonParam.put("email", user.getEmail());
+            if (user.getRole().equals(Role.MANAGER)) jsonParam.put("role", 3);
+            else if (user.getRole().equals(Role.EMPLOYEE)) jsonParam.put("role", 2);
+            else jsonParam.put("role", 1);
+
+            DataOutputStream os = new DataOutputStream(con.getOutputStream());
+            os.writeBytes(jsonParam.toString());
+
+            System.out.println(con.getResponseMessage());
             os.flush();
             os.close();
         } catch (Exception ex) {

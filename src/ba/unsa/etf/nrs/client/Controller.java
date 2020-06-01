@@ -40,8 +40,6 @@ public class Controller implements Initializable {
     public TableColumn<Product, Category> productCategoryColumn;
     public TableColumn<Product, Double> productPriceColumn;
     public ChoiceBox<String> filterUsersChoiceBox;
-    public Button addUserButton;
-    public Button editUserButton;
     public TableView<User> usersTable;
     public TableColumn<User, Integer> userIdColumn;
     public TableColumn<User, String> userFirstNameColumn;
@@ -415,6 +413,82 @@ public class Controller implements Initializable {
                         try {
                             RestService restService = new RestService();
                             restService.editProduct(product);
+                            refreshData();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addUser() {
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user.fxml"));
+            UserController userController = new UserController(null);
+            loader.setController(userController);
+            root = loader.load();
+            stage.setTitle("User");
+            stage.setScene(new Scene(root, 300, 400));
+            stage.setMinWidth(300);
+            stage.setMaxWidth(400);
+            stage.setMinHeight(300);
+            stage.setMaxHeight(400);
+            stage.initOwner(
+                    (usersTable.getScene().getWindow()));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+            stage.setOnHiding(event -> {
+                User user = userController.getUser();
+                if (user != null) {
+                    new Thread(() -> {
+                        try {
+                            RestService restService = new RestService();
+                            restService.addUser(user);
+                            refreshData();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editUser() {
+        User selectedUser = usersTable.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) return;
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/user.fxml"));
+            UserController userController = new UserController(selectedUser);
+            loader.setController(userController);
+            root = loader.load();
+            stage.setTitle("User");
+            stage.setScene(new Scene(root, 300, 400));
+            stage.setMinWidth(300);
+            stage.setMaxWidth(400);
+            stage.setMinHeight(300);
+            stage.setMaxHeight(400);
+            stage.initOwner(
+                    (usersTable.getScene().getWindow()));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+            stage.setOnHiding(event -> {
+                User user = userController.getUser();
+                if (user != null) {
+                    new Thread(() -> {
+                        try {
+                            RestService restService = new RestService();
+                            restService.editUser(user);
                             refreshData();
                         } catch (Exception e) {
                             e.printStackTrace();

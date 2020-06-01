@@ -6,6 +6,7 @@ public class User {
     int id;
     Role role;
     SimpleStringProperty firstName, lastName, username, email, address;
+    String password;
 
     public User() {
         this.id = 0;
@@ -17,7 +18,7 @@ public class User {
         this.address = new SimpleStringProperty("address");
     }
 
-    public User(int id, Role role, String firstName, String lastName, String username, String email, String address) {
+    public User(int id, Role role, String firstName, String lastName, String username, String email, String address, String password) {
         this.id = id;
         this.role = role;
         this.firstName = new SimpleStringProperty(firstName);
@@ -25,6 +26,7 @@ public class User {
         this.username = new SimpleStringProperty(username);
         this.email = new SimpleStringProperty(email);
         this.address = new SimpleStringProperty(address);
+        this.password = password;
     }
 
     public int getId() {
@@ -101,6 +103,14 @@ public class User {
 
     public SimpleStringProperty addressProperty() {
         return address;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

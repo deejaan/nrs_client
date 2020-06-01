@@ -154,12 +154,12 @@
                     </padding>
                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                         <ChoiceBox fx:id="filterUsersChoiceBox" prefWidth="150.0"/>
-                        <Button fx:id="addUserButton" mnemonicParsing="false" text="Add User">
+                        <Button mnemonicParsing="false" text="Add User" onAction="#addUser">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="editUserButton" mnemonicParsing="false" text="Edit User">
+                        <Button mnemonicParsing="false" text="Edit User" onAction="#editUser">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
