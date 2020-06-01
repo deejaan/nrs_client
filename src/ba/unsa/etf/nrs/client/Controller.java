@@ -43,8 +43,6 @@ public class Controller implements Initializable {
     public TableColumn<Product, String> productDescriptionColumn;
     public TableColumn<Product, Category> productCategoryColumn;
     public TableColumn<Product, Double> productPriceColumn;
-    public Button editCategoryButton;
-    public Button addCategoryButton;
     public ChoiceBox<String> filterUsersChoiceBox;
     public Button addUserButton;
     public Button editUserButton;
@@ -266,7 +264,7 @@ public class Controller implements Initializable {
             CategoryController categoryController = new CategoryController(null);
             loader.setController(categoryController);
             root = loader.load();
-            stage.setTitle("Appointment");
+            stage.setTitle("Category");
             stage.setScene(new Scene(root, 300, 400));
             stage.setMinWidth(300);
             stage.setMaxWidth(400);
@@ -305,7 +303,7 @@ public class Controller implements Initializable {
             CategoryController categoryController = new CategoryController(selectedCategory);
             loader.setController(categoryController);
             root = loader.load();
-            stage.setTitle("Appointment");
+            stage.setTitle("Category");
             stage.setScene(new Scene(root, 300, 400));
             stage.setMinWidth(300);
             stage.setMaxWidth(400);
@@ -322,6 +320,82 @@ public class Controller implements Initializable {
                         try {
                             RestService restService = new RestService();
                             restService.editCategory(category);
+                            refreshData();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addProduct() {
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/product.fxml"));
+            ProductController productController = new ProductController(null);
+            loader.setController(productController);
+            root = loader.load();
+            stage.setTitle("Product");
+            stage.setScene(new Scene(root, 300, 400));
+            stage.setMinWidth(300);
+            stage.setMaxWidth(400);
+            stage.setMinHeight(300);
+            stage.setMaxHeight(400);
+            stage.initOwner(
+                    (productsTable.getScene().getWindow()));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+            stage.setOnHiding(event -> {
+                Product product = productController.getProduct();
+                if (product != null) {
+                    new Thread(() -> {
+                        try {
+                            RestService restService = new RestService();
+                            restService.addProduct(product);
+                            refreshData();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editProduct() {
+        Product selectedProduct = productsTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct == null) return;
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/product.fxml"));
+            ProductController productController = new ProductController(selectedProduct);
+            loader.setController(productController);
+            root = loader.load();
+            stage.setTitle("Product");
+            stage.setScene(new Scene(root, 300, 400));
+            stage.setMinWidth(300);
+            stage.setMaxWidth(400);
+            stage.setMinHeight(300);
+            stage.setMaxHeight(400);
+            stage.initOwner(
+                    (productsTable.getScene().getWindow()));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+            stage.setOnHiding(event -> {
+                Product product = productController.getProduct();
+                if (product != null) {
+                    new Thread(() -> {
+                        try {
+                            RestService restService = new RestService();
+                            restService.editProduct(product);
                             refreshData();
                         } catch (Exception e) {
                             e.printStackTrace();

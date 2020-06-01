@@ -76,12 +76,12 @@
                     </padding>
                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                         <ChoiceBox fx:id="filterProductsChoiceBox" prefWidth="150.0"/>
-                        <Button fx:id="addProductButton" mnemonicParsing="false" text="Add Product">
+                        <Button mnemonicParsing="false" text="Add Product" onAction="#addProduct">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="editProductButton" mnemonicParsing="false" text="Edit Product">
+                        <Button mnemonicParsing="false" text="Edit Product" onAction="#editProduct">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>

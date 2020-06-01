@@ -350,4 +350,74 @@ public class RestService {
             }
         }
     }
+
+    public void addProduct(Product product) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/product/");
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoInput(true);
+            con.setDoOutput(true);
+
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("name", product.getName());
+            jsonParam.put("description", product.getDescription());
+            jsonParam.put("price", product.getPrice());
+            jsonParam.put("categoryId", product.getCategory().getId());
+            DataOutputStream os = new DataOutputStream(con.getOutputStream());
+            os.writeBytes(jsonParam.toString());
+
+            con.getResponseMessage();
+            os.flush();
+            os.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void editProduct(Product product) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/product/" + product.getId());
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("PUT");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoInput(true);
+            con.setDoOutput(true);
+
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("name", product.getName());
+            jsonParam.put("description", product.getDescription());
+            jsonParam.put("price", product.getPrice());
+            jsonParam.put("categoryId", product.getCategory().getId());
+            DataOutputStream os = new DataOutputStream(con.getOutputStream());
+            os.writeBytes(jsonParam.toString());
+
+            con.getResponseMessage();
+            os.flush();
+            os.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
 }
