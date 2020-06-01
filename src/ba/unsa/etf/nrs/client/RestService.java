@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -271,6 +272,72 @@ public class RestService {
             con.setRequestMethod("DELETE");
             con.connect();
             con.getResponseCode();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void addCategory(Category category) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/category/");
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoInput(true);
+            con.setDoOutput(true);
+
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("name", category.getName());
+            jsonParam.put("description", category.getDescription());
+            DataOutputStream os = new DataOutputStream(con.getOutputStream());
+            os.writeBytes(jsonParam.toString());
+
+            con.getResponseMessage();
+            os.flush();
+            os.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void editCategory(Category category) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/category/" + category.getId());
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("PUT");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoInput(true);
+            con.setDoOutput(true);
+
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("name", category.getName());
+            jsonParam.put("description", category.getDescription());
+            DataOutputStream os = new DataOutputStream(con.getOutputStream());
+            os.writeBytes(jsonParam.toString());
+
+            System.out.println(con.getResponseMessage());
+            os.flush();
+            os.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

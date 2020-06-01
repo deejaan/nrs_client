@@ -133,12 +133,13 @@
                             <Font name="System Bold" size="13.0"/>
                         </font>
                     </Label>
-                    <Button fx:id="editCategoryButton" mnemonicParsing="false" prefWidth="125.0" text="Edit Category"
-                            GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Button mnemonicParsing="false" prefWidth="125.0" text="Edit Category"
+                            GridPane.columnIndex="1" GridPane.rowIndex="2" onAction="#editCategory"/>
                     <Button mnemonicParsing="false" prefWidth="125.0" text="Delete Category" GridPane.columnIndex="1"
                             GridPane.rowIndex="3" onAction="#deleteCategory"/>
-                    <Button fx:id="addCategoryButton" mnemonicParsing="false" prefWidth="125.0" text="Add Category"
-                            GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1"/>
+                    <Button mnemonicParsing="false" prefWidth="125.0" text="Add Category"
+                            GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1"
+                            onAction="#addCategory"/>
                 </GridPane>
             </Tab>
             <Tab text="Users">

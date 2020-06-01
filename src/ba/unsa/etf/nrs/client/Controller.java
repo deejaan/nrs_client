@@ -5,9 +5,14 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -20,7 +25,6 @@ public class Controller implements Initializable {
     public Button orderDetailsButton;
     public Button addOrderButton;
     public Button editOrderButton;
-    public Button deleteOrderButton;
     public Button completeOrderButton;
     public TableView<Order> ordersTable;
     public TableColumn<Order, Integer> orderNumberColumn;
@@ -252,5 +256,81 @@ public class Controller implements Initializable {
         getCategories();
         getProducts();
         getOrders();
+    }
+
+    public void addCategory() {
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/category.fxml"));
+            CategoryController categoryController = new CategoryController(null);
+            loader.setController(categoryController);
+            root = loader.load();
+            stage.setTitle("Appointment");
+            stage.setScene(new Scene(root, 300, 400));
+            stage.setMinWidth(300);
+            stage.setMaxWidth(400);
+            stage.setMinHeight(300);
+            stage.setMaxHeight(400);
+            stage.initOwner(
+                    (categoriesListView.getScene().getWindow()));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+            stage.setOnHiding(event -> {
+                Category category = categoryController.getCategory();
+                if (category != null) {
+                    new Thread(() -> {
+                        try {
+                            RestService restService = new RestService();
+                            restService.addCategory(category);
+                            refreshData();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editCategory() {
+        Category selectedCategory = categoriesListView.getSelectionModel().getSelectedItem();
+        if (selectedCategory == null) return;
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/category.fxml"));
+            CategoryController categoryController = new CategoryController(selectedCategory);
+            loader.setController(categoryController);
+            root = loader.load();
+            stage.setTitle("Appointment");
+            stage.setScene(new Scene(root, 300, 400));
+            stage.setMinWidth(300);
+            stage.setMaxWidth(400);
+            stage.setMinHeight(300);
+            stage.setMaxHeight(400);
+            stage.initOwner(
+                    (categoriesListView.getScene().getWindow()));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+            stage.setOnHiding(event -> {
+                Category category = categoryController.getCategory();
+                if (category != null) {
+                    new Thread(() -> {
+                        try {
+                            RestService restService = new RestService();
+                            restService.editCategory(category);
+                            refreshData();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
