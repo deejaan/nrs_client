@@ -196,7 +196,9 @@ public class RestService {
             JSONObject object = jsonArray.getJSONObject(i);
             Order order = new Order();
             order.setId(object.getInt("id"));
-            order.setCompleted(object.getBoolean("completed"));
+            boolean completed = object.getBoolean("completed");
+            if (completed) order.setStatus(Status.COMPLETED);
+            else order.setStatus(Status.ACTIVE);
             order.setOrderDate(LocalDateTime.parse(object.getString("orderDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
             order.setOrderItems(getOrderItems(object.getInt("id")));
             order.setCoupon(getCoupon(object.getJSONObject("coupon").getInt("id")));

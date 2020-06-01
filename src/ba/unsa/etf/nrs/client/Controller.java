@@ -31,8 +31,8 @@ public class Controller implements Initializable {
     public TableColumn<Order, LocalDateTime> orderDateColumn;
     public TableColumn<Order, User> orderUserColumn;
     public TableColumn<Order, Coupon> orderCouponColumn;
-    public TableColumn<Order, Boolean> orderStatusColumn;
-    public ChoiceBox<Category> filterProductsChoiceBox;
+    public TableColumn<Order, String> orderStatusColumn;
+    public ChoiceBox<String> filterProductsChoiceBox;
     public TableView<Product> productsTable;
     public TableColumn<Product, Integer> productIdColumn;
     public TableColumn<Product, String> productNameColumn;
@@ -87,20 +87,34 @@ public class Controller implements Initializable {
         orderCouponColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getCoupon()));
         orderUserColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getUser()));
         orderDateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getOrderDate()));
-        orderStatusColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().isCompleted()));
+        orderStatusColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getStatus().toString()));
 
-        ObservableList<String> roles = FXCollections.observableArrayList(new ArrayList<>());
-        roles.add("All");
+        ObservableList<String> roleFilters = FXCollections.observableArrayList(new ArrayList<>());
+        roleFilters.add("All");
         for (Role role : Role.values()) {
-            roles.addAll(role.toString());
+            roleFilters.addAll(role.toString());
         }
-        filterUsersChoiceBox.setItems(roles);
+        filterUsersChoiceBox.setItems(roleFilters);
         filterUsersChoiceBox.getSelectionModel().selectFirst();
 
-        getUsers();
-        getCategories();
-        getProducts();
-        getOrders();
+        ObservableList<String> statusFilters = FXCollections.observableArrayList(new ArrayList<>());
+        statusFilters.add("All");
+        for (Status status : Status.values()) {
+            statusFilters.addAll(status.toString());
+        }
+        filterOrdersChoiceBox.setItems(statusFilters);
+        filterOrdersChoiceBox.getSelectionModel().selectFirst();
+
+        ObservableList<String> categoryFilters = FXCollections.observableArrayList(new ArrayList<>());
+        categoryFilters.add("All");
+        for (Category category : categories) {
+            categoryFilters.add(category.toString());
+        }
+        filterProductsChoiceBox.setItems(categoryFilters);
+        filterProductsChoiceBox.getSelectionModel().selectFirst();
+
+
+        refreshData();
     }
 
     public void getUsers() {
@@ -126,7 +140,12 @@ public class Controller implements Initializable {
                 Platform.runLater(() -> {
                     categoriesListView.setItems(categories);
                     categoriesListView.refresh();
-                    filterProductsChoiceBox.setItems(categories);
+                    ObservableList<String> categoryFilters = FXCollections.observableArrayList(new ArrayList<>());
+                    categoryFilters.add("All");
+                    for (Category category : categories) {
+                        categoryFilters.add(category.toString());
+                    }
+                    filterProductsChoiceBox.setItems(categoryFilters);
                     filterProductsChoiceBox.getSelectionModel().selectFirst();
                 });
             } catch (Exception e) {
