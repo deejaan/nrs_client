@@ -9,18 +9,24 @@ public class Order {
     User user;
     Coupon coupon;
     LocalDateTime orderDate;
-    boolean completed;
+    Status status;
 
     public Order() {
+        this.id = 0;
+        this.orderItems = new ArrayList<>();
+        this.user = null;
+        this.coupon = null;
+        this.orderDate = LocalDateTime.now();
+        this.status = Status.ACTIVE;
     }
 
-    public Order(int id, ArrayList<OrderItem> orderItems, User user, Coupon coupon, LocalDateTime orderDate, boolean completed) {
+    public Order(int id, ArrayList<OrderItem> orderItems, User user, Coupon coupon, LocalDateTime orderDate, Status status) {
         this.id = id;
         this.orderItems = orderItems;
         this.user = user;
         this.coupon = coupon;
         this.orderDate = orderDate;
-        this.completed = completed;
+        this.status = status;
     }
 
     public int getId() {
@@ -63,12 +69,12 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public boolean isCompleted() {
-        return completed;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override

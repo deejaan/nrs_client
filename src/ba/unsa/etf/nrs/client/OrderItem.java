@@ -5,6 +5,9 @@ public class OrderItem {
     Product product;
 
     public OrderItem() {
+        this.id = 0;
+        this.quantity = 0;
+        this.product = null;
     }
 
     public OrderItem(int id, int quantity, Product product) {

@@ -3,13 +3,22 @@ package ba.unsa.etf.nrs.client;
 import javafx.beans.property.SimpleStringProperty;
 
 public class User {
-    int id, role;
+    int id;
+    Role role;
     SimpleStringProperty firstName, lastName, username, email, address;
+    String password;
 
     public User() {
+        this.id = 0;
+        this.role = Role.CLIENT;
+        this.firstName = new SimpleStringProperty("");
+        this.lastName = new SimpleStringProperty("lastName");
+        this.username = new SimpleStringProperty("username");
+        this.email = new SimpleStringProperty("email");
+        this.address = new SimpleStringProperty("address");
     }
 
-    public User(int id, int role, String firstName, String lastName, String username, String email, String address) {
+    public User(int id, Role role, String firstName, String lastName, String username, String email, String address, String password) {
         this.id = id;
         this.role = role;
         this.firstName = new SimpleStringProperty(firstName);
@@ -17,6 +26,7 @@ public class User {
         this.username = new SimpleStringProperty(username);
         this.email = new SimpleStringProperty(email);
         this.address = new SimpleStringProperty(address);
+        this.password = password;
     }
 
     public int getId() {
@@ -27,11 +37,11 @@ public class User {
         this.id = id;
     }
 
-    public int getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -95,8 +105,16 @@ public class User {
         return address;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
-        return firstName + " " + lastName;
+        return getFirstName() + " " + getLastName();
     }
 }
