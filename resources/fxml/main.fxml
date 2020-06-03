@@ -8,7 +8,8 @@
             minWidth="600.0" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="ba.unsa.etf.nrs.client.Controller">
     <center>
-        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER"
+                 fx:id="mainTabPane">
             <Tab text="Orders">
                 <GridPane vgap="10.0">
                     <rowConstraints>
@@ -28,12 +29,12 @@
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="addOrderButton" mnemonicParsing="false" text="Add Order">
+                        <Button mnemonicParsing="false" text="Add Order" onAction="#addOrder">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="editOrderButton" mnemonicParsing="false" text="Edit Order">
+                        <Button mnemonicParsing="false" text="Edit Order" onAction="#editOrder">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
@@ -140,7 +141,7 @@
                             onAction="#addCategory"/>
                 </GridPane>
             </Tab>
-            <Tab text="Users">
+            <Tab text="Users" fx:id="usersTab">
                 <GridPane vgap="10.0">
                     <rowConstraints>
                         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="NEVER"/>

@@ -61,6 +61,8 @@ public class Controller implements Initializable {
     public RadioButton ordersNoRadio;
     public ObservableList<User> users = FXCollections.observableArrayList(new ArrayList<>());
     public ObservableList<Category> categories = FXCollections.observableArrayList(new ArrayList<>());
+    public Tab usersTab;
+    public TabPane mainTabPane;
     private ObservableList<Product> products = FXCollections.observableArrayList(new ArrayList<>());
     private ObservableList<Order> orders = FXCollections.observableArrayList(new ArrayList<>());
 
@@ -113,6 +115,9 @@ public class Controller implements Initializable {
 
 
         refreshData();
+
+        //mainTabPane.getTabs().removeAll(usersTab);
+
     }
 
     public void getUsers() {
@@ -489,6 +494,82 @@ public class Controller implements Initializable {
                         try {
                             RestService restService = new RestService();
                             restService.editUser(user);
+                            refreshData();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addOrder() {
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/order.fxml"));
+            OrderController orderController = new OrderController(null);
+            loader.setController(orderController);
+            root = loader.load();
+            stage.setTitle("Order");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setMinWidth(600);
+            stage.setMaxWidth(400);
+            stage.setMinHeight(600);
+            stage.setMaxHeight(400);
+            stage.initOwner(
+                    (ordersTable.getScene().getWindow()));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+            stage.setOnHiding(event -> {
+                Order order = orderController.getOrder();
+                if (order != null) {
+                    new Thread(() -> {
+                        try {
+                            RestService restService = new RestService();
+                            restService.addOrder(order);
+                            refreshData();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editOrder() {
+        Order selectedOrder = ordersTable.getSelectionModel().getSelectedItem();
+        if (selectedOrder == null) return;
+        Stage stage = new Stage();
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/order.fxml"));
+            OrderController orderController = new OrderController(selectedOrder);
+            loader.setController(orderController);
+            root = loader.load();
+            stage.setTitle("Order");
+            stage.setScene(new Scene(root, 600, 400));
+            stage.setMinWidth(600);
+            stage.setMaxWidth(400);
+            stage.setMinHeight(600);
+            stage.setMaxHeight(400);
+            stage.initOwner(
+                    (ordersTable.getScene().getWindow()));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+            stage.setOnHiding(event -> {
+                Order order = orderController.getOrder();
+                if (order != null) {
+                    new Thread(() -> {
+                        try {
+                            RestService restService = new RestService();
+                            restService.editOrder(order);
                             refreshData();
                         } catch (Exception e) {
                             e.printStackTrace();

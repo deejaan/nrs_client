@@ -15,7 +15,7 @@ import java.util.Objects;
 
 
 public class RestService {
-    public static final String ROOT = "http://localhost:8080";
+    public static final String ROOT = "http://tim1-nrs-backend.herokuapp.com";
 
     private static String getJSON(String url) {
         HttpURLConnection con = null;
@@ -58,10 +58,10 @@ public class RestService {
             user.setPassword(object.getString("password"));
             int role = object.getInt("role");
             if (role == 3) {
-                user.setRole(Role.MANAGER);
+                user.setRole(Role.CLIENT);
             } else if (role == 2) {
                 user.setRole(Role.EMPLOYEE);
-            } else user.setRole(Role.CLIENT);
+            } else user.setRole(Role.MANAGER);
             user.setUsername(object.getString("username"));
             user.setAddress(object.getString("address"));
             users.add(user);
@@ -80,10 +80,10 @@ public class RestService {
             user.setPassword(jsonObject.getString("password"));
             int role = jsonObject.getInt("role");
             if (role == 3) {
-                user.setRole(Role.MANAGER);
+                user.setRole(Role.CLIENT);
             } else if (role == 2) {
                 user.setRole(Role.EMPLOYEE);
-            } else user.setRole(Role.CLIENT);
+            } else user.setRole(Role.MANAGER);
             user.setUsername(jsonObject.getString("username"));
             user.setAddress(jsonObject.getString("address"));
             return user;
@@ -203,7 +203,11 @@ public class RestService {
             else order.setStatus(Status.ACTIVE);
             order.setOrderDate(LocalDateTime.parse(object.getString("orderDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
             order.setOrderItems(getOrderItems(object.getInt("id")));
-            order.setCoupon(getCoupon(object.getJSONObject("coupon").getInt("id")));
+            try {
+                order.setCoupon(getCoupon(object.getJSONObject("coupon").getInt("id")));
+            } catch (Exception e) {
+                order.setCoupon(null);
+            }
             try {
                 order.setUser(getUser(object.getJSONObject("user").getInt("id")));
             } catch (Exception e) {
@@ -453,9 +457,9 @@ public class RestService {
             jsonParam.put("username", user.getUsername());
             jsonParam.put("password", user.getPassword());
             jsonParam.put("email", user.getEmail());
-            if (user.getRole().equals(Role.MANAGER)) jsonParam.put("role", 3);
+            if (user.getRole().equals(Role.MANAGER)) jsonParam.put("role", 1);
             else if (user.getRole().equals(Role.EMPLOYEE)) jsonParam.put("role", 2);
-            else jsonParam.put("role", 1);
+            else jsonParam.put("role", 3);
             DataOutputStream os = new DataOutputStream(con.getOutputStream());
             os.writeBytes(jsonParam.toString());
 
@@ -493,9 +497,101 @@ public class RestService {
             jsonParam.put("username", user.getUsername());
             jsonParam.put("password", user.getPassword());
             jsonParam.put("email", user.getEmail());
-            if (user.getRole().equals(Role.MANAGER)) jsonParam.put("role", 3);
+            if (user.getRole().equals(Role.MANAGER)) jsonParam.put("role", 1);
             else if (user.getRole().equals(Role.EMPLOYEE)) jsonParam.put("role", 2);
-            else jsonParam.put("role", 1);
+            else jsonParam.put("role", 3);
+
+            DataOutputStream os = new DataOutputStream(con.getOutputStream());
+            os.writeBytes(jsonParam.toString());
+
+            System.out.println(con.getResponseMessage());
+            os.flush();
+            os.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void addOrder(Order order) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/order/");
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoInput(true);
+            con.setDoOutput(true);
+
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("orderDate", order.getOrderDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
+            jsonParam.put("couponId", 1);
+            jsonParam.put("userId", order.getUser().getId());
+            jsonParam.put("completed", !order.getStatus().equals(Status.ACTIVE));
+
+            JSONArray jsonArray = new JSONArray();
+
+            for (OrderItem orderItem : order.getOrderItems()) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("quantity", orderItem.getQuantity());
+                jsonObject.put("productId", orderItem.getProduct().getId());
+            }
+
+            jsonParam.put("orderItems", jsonArray);
+
+            DataOutputStream os = new DataOutputStream(con.getOutputStream());
+            os.writeBytes(jsonParam.toString());
+
+            System.out.println(con.getResponseMessage());
+            os.flush();
+            os.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void editOrder(Order order) {
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/order/" + order.getId());
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("PUT");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoInput(true);
+            con.setDoOutput(true);
+
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("orderDate", order.getOrderDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
+            jsonParam.put("couponId", 1);
+            jsonParam.put("userId", order.getUser().getId());
+            jsonParam.put("completed", !order.getStatus().equals(Status.ACTIVE));
+
+            JSONArray jsonArray = new JSONArray();
+
+            for (OrderItem orderItem : order.getOrderItems()) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("quantity", orderItem.getQuantity());
+                jsonObject.put("productId", orderItem.getProduct().getId());
+            }
+
+            jsonParam.put("orderItems", jsonArray);
 
             DataOutputStream os = new DataOutputStream(con.getOutputStream());
             os.writeBytes(jsonParam.toString());

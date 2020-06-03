@@ -37,9 +37,9 @@ public class UserController implements Initializable {
 
         if (user != null) {
             firstNameTextField.setText(user.getFirstName());
-            lastNameTextField.setText(user.getFirstName());
-            addressTextField.setText(user.getFirstName());
-            emailTextField.setText(user.getFirstName());
+            lastNameTextField.setText(user.getLastName());
+            addressTextField.setText(user.getAddress());
+            emailTextField.setText(user.getEmail());
             usernameTextField.setText(user.getUsername());
             passwordField.setText(user.getPassword());
             roleChoiceBox.getSelectionModel().select(user.getRole());
