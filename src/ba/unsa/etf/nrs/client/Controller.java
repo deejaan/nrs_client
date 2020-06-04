@@ -22,8 +22,6 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     public ChoiceBox<String> filterOrdersChoiceBox;
-    public Button orderDetailsButton;
-    public Button completeOrderButton;
     public TableView<Order> ordersTable;
     public TableColumn<Order, Integer> orderIdColumn;
     public TableColumn<Order, LocalDateTime> orderDateColumn;
@@ -112,10 +110,76 @@ public class Controller implements Initializable {
         filterProductsChoiceBox.getSelectionModel().selectFirst();
 
 
+        filterProductsChoiceBox.getSelectionModel().selectedItemProperty().addListener((value, oldValue, newValue) -> {
+            if (newValue == null) return;
+            if (newValue.equals("All")) getProducts();
+            else filterProducts(newValue);
+        });
+
+        filterOrdersChoiceBox.getSelectionModel().selectedItemProperty().addListener((value, oldValue, newValue) -> {
+            if (newValue == null) return;
+            if (newValue.equals("All")) getOrders();
+            else filterOrders(newValue);
+        });
+
+        filterUsersChoiceBox.getSelectionModel().selectedItemProperty().addListener((value, oldValue, newValue) -> {
+            if (newValue == null) return;
+            if (newValue.equals("All")) getUsers();
+            else filterUsers(newValue);
+        });
+
         refreshData();
 
         //mainTabPane.getTabs().removeAll(usersTab);
 
+    }
+
+    private void filterUsers(String filter) {
+        new Thread(() -> {
+            try {
+                RestService restService = new RestService();
+                this.users = FXCollections.observableArrayList(restService.getUsers());
+                Platform.runLater(() -> {
+                    users.removeIf(user -> !user.getRole().toString().equals(filter));
+                    usersTable.setItems(users);
+                    usersTable.refresh();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    private void filterOrders(String filter) {
+        new Thread(() -> {
+            try {
+                RestService restService = new RestService();
+                this.orders = FXCollections.observableArrayList(restService.getOrders());
+                Platform.runLater(() -> {
+                    orders.removeIf(order -> !order.getStatus().toString().equals(filter));
+                    ordersTable.setItems(orders);
+                    ordersTable.refresh();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public void filterProducts(String filter) {
+        new Thread(() -> {
+            try {
+                RestService restService = new RestService();
+                this.products = FXCollections.observableArrayList(restService.getProducts());
+                Platform.runLater(() -> {
+                    products.removeIf(product -> !product.getCategory().toString().equals(filter));
+                    productsTable.setItems(products);
+                    productsTable.refresh();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     public void getUsers() {

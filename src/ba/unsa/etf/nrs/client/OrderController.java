@@ -129,6 +129,11 @@ public class OrderController implements Initializable {
                 OrderItem orderItem = orderItemController.getOrderItem();
                 if (orderItem != null) {
                     orderItemsListView.getItems().add(orderItem);
+                    double total = 0;
+                    for (OrderItem o : orderItemsListView.getItems()) {
+                        total += (o.getQuantity() * o.getProduct().getPrice());
+                    }
+                    totalLabel.setText(String.valueOf(total));
                 }
             });
         } catch (Exception e) {
@@ -162,6 +167,11 @@ public class OrderController implements Initializable {
                     orderItemsListView.getSelectionModel().getSelectedItem().setQuantity(orderItem.getQuantity());
                     orderItemsListView.getSelectionModel().getSelectedItem().setProduct(orderItem.getProduct());
                     orderItemsListView.refresh();
+                    double total = 0;
+                    for (OrderItem o : orderItemsListView.getItems()) {
+                        total += (o.getQuantity() * o.getProduct().getPrice());
+                    }
+                    totalLabel.setText(String.valueOf(total));
                 }
             });
         } catch (Exception e) {
