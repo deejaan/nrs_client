@@ -642,4 +642,68 @@ public class RestService {
             }
         }
     }
+
+    public User login(String email, String password) {
+        User user = null;
+        HttpURLConnection con = null;
+        try {
+            URL u = new URL(ROOT + "/api/login/");
+            con = (HttpURLConnection) u.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoInput(true);
+            con.setDoOutput(true);
+
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("email", email);
+            jsonParam.put("password", password);
+
+            DataOutputStream os = new DataOutputStream(con.getOutputStream());
+            os.writeBytes(jsonParam.toString());
+            os.flush();
+            os.close();
+
+            try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\n");
+                }
+                br.close();
+
+                JSONObject jsonObject = new JSONObject(sb.toString());
+                user = new User();
+                user.setId(jsonObject.getInt("id"));
+                user.setLastName(jsonObject.getString("lastName"));
+                user.setFirstName(jsonObject.getString("name"));
+                user.setEmail(jsonObject.getString("email"));
+                user.setPassword("");
+                int role = jsonObject.getInt("role");
+                if (role == 3) {
+                    user.setRole(Role.CLIENT);
+                } else if (role == 2) {
+                    user.setRole(Role.EMPLOYEE);
+                } else user.setRole(Role.MANAGER);
+                user.setUsername(jsonObject.getString("username"));
+                user.setAddress(jsonObject.getString("address"));
+                return user;
+            } catch (Exception e) {
+                return null;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    con.disconnect();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        return user;
+    }
 }

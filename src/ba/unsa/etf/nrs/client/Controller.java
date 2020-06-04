@@ -58,10 +58,15 @@ public class Controller implements Initializable {
     public ObservableList<User> users = FXCollections.observableArrayList(new ArrayList<>());
     public ObservableList<Category> categories = FXCollections.observableArrayList(new ArrayList<>());
     public Tab usersTab;
+    private final User currentUser;
     public TabPane mainTabPane;
     private ObservableList<Product> products = FXCollections.observableArrayList(new ArrayList<>());
     private ObservableList<Order> orders = FXCollections.observableArrayList(new ArrayList<>());
+    public Tab reportsTab;
 
+    Controller(User user) {
+        currentUser = user;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -130,7 +135,10 @@ public class Controller implements Initializable {
 
         refreshData();
 
-        //mainTabPane.getTabs().removeAll(usersTab);
+        if (currentUser.getRole().equals(Role.EMPLOYEE) || currentUser.getRole().equals(Role.CLIENT)) {
+            mainTabPane.getTabs().removeAll(usersTab);
+            mainTabPane.getTabs().removeAll(reportsTab);
+        }
 
     }
 
@@ -341,7 +349,8 @@ public class Controller implements Initializable {
     }
 
     public void logout() {
-
+        Stage stage = (Stage) ordersTable.getScene().getWindow();
+        stage.close();
     }
 
     public void addCategory() {

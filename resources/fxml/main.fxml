@@ -5,8 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0"
-            minWidth="600.0" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            fx:controller="ba.unsa.etf.nrs.client.Controller">
+            minWidth="600.0" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal">
     <center>
         <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
                  BorderPane.alignment="CENTER">
@@ -175,7 +174,7 @@
                     </TableView>
                 </GridPane>
             </Tab>
-            <Tab text="Report">
+            <Tab text="Report" fx:id="reportsTab">
                 <GridPane hgap="10.0" vgap="10.0">
                     <rowConstraints>
                         <RowConstraints vgrow="NEVER"/>
@@ -268,17 +267,15 @@
     </center>
     <top>
         <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
-            <children>
-                <Button mnemonicParsing="false" onAction="#refreshData" text="Refresh Data"/>
-                <Button mnemonicParsing="false" onAction="#logout" text="Logout">
-                    <HBox.margin>
-                        <Insets left="10.0" right="8.0"/>
-                    </HBox.margin>
-                </Button>
-            </children>
             <padding>
                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
             </padding>
+            <Button mnemonicParsing="false" onAction="#refreshData" text="Refresh Data"/>
+            <Button mnemonicParsing="false" onAction="#logout" text="Logout">
+                <HBox.margin>
+                    <Insets left="10.0" right="8.0"/>
+                </HBox.margin>
+            </Button>
         </HBox>
     </top>
 </BorderPane>
