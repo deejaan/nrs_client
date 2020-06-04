@@ -8,8 +8,8 @@
             minWidth="600.0" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
             fx:controller="ba.unsa.etf.nrs.client.Controller">
     <center>
-        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER"
-                 fx:id="mainTabPane">
+        <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
+                 BorderPane.alignment="CENTER">
             <Tab text="Orders">
                 <GridPane vgap="10.0">
                     <rowConstraints>
@@ -29,17 +29,17 @@
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Add Order" onAction="#addOrder">
+                        <Button mnemonicParsing="false" onAction="#addOrder" text="Add Order">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Edit Order" onAction="#editOrder">
+                        <Button mnemonicParsing="false" onAction="#editOrder" text="Edit Order">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Delete Order" onAction="#deleteOrder">
+                        <Button mnemonicParsing="false" onAction="#deleteOrder" text="Delete Order">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
@@ -76,17 +76,17 @@
                     </padding>
                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                         <ChoiceBox fx:id="filterProductsChoiceBox" prefWidth="150.0"/>
-                        <Button mnemonicParsing="false" text="Add Product" onAction="#addProduct">
+                        <Button mnemonicParsing="false" onAction="#addProduct" text="Add Product">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Edit Product" onAction="#editProduct">
+                        <Button mnemonicParsing="false" onAction="#editProduct" text="Edit Product">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Delete Product" onAction="#deleteProduct">
+                        <Button mnemonicParsing="false" onAction="#deleteProduct" text="Delete Product">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
@@ -132,16 +132,15 @@
                             <Font name="System Bold" size="13.0"/>
                         </font>
                     </Label>
-                    <Button mnemonicParsing="false" prefWidth="125.0" text="Edit Category"
-                            GridPane.columnIndex="1" GridPane.rowIndex="2" onAction="#editCategory"/>
-                    <Button mnemonicParsing="false" prefWidth="125.0" text="Delete Category" GridPane.columnIndex="1"
-                            GridPane.rowIndex="3" onAction="#deleteCategory"/>
-                    <Button mnemonicParsing="false" prefWidth="125.0" text="Add Category"
-                            GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1"
-                            onAction="#addCategory"/>
+                    <Button mnemonicParsing="false" onAction="#editCategory" prefWidth="125.0" text="Edit Category"
+                            GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Button mnemonicParsing="false" onAction="#deleteCategory" prefWidth="125.0" text="Delete Category"
+                            GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    <Button mnemonicParsing="false" onAction="#addCategory" prefWidth="125.0" text="Add Category"
+                            GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1"/>
                 </GridPane>
             </Tab>
-            <Tab text="Users" fx:id="usersTab">
+            <Tab fx:id="usersTab" text="Users">
                 <GridPane vgap="10.0">
                     <rowConstraints>
                         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="NEVER"/>
@@ -155,17 +154,17 @@
                     </padding>
                     <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                         <ChoiceBox fx:id="filterUsersChoiceBox" prefWidth="150.0"/>
-                        <Button mnemonicParsing="false" text="Add User" onAction="#addUser">
+                        <Button mnemonicParsing="false" onAction="#addUser" text="Add User">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Edit User" onAction="#editUser">
+                        <Button mnemonicParsing="false" onAction="#editUser" text="Edit User">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Delete User" onAction="#deleteUser">
+                        <Button mnemonicParsing="false" onAction="#deleteUser" text="Delete User">
                             <HBox.margin>
                                 <Insets left="10.0"/>
                             </HBox.margin>
@@ -277,4 +276,19 @@
             </Tab>
         </TabPane>
     </center>
+    <top>
+        <HBox alignment="CENTER_RIGHT" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#refreshData" text="Refresh Data"/>
+                <Button mnemonicParsing="false" onAction="#logout" text="Logout">
+                    <HBox.margin>
+                        <Insets left="10.0" right="8.0"/>
+                    </HBox.margin>
+                </Button>
+            </children>
+            <padding>
+                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
+            </padding>
+        </HBox>
+    </top>
 </BorderPane>

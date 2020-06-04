@@ -276,6 +276,10 @@ public class Controller implements Initializable {
         getOrders();
     }
 
+    public void logout() {
+
+    }
+
     public void addCategory() {
         Stage stage = new Stage();
         Parent root;

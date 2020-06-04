@@ -102,7 +102,6 @@ public class OrderController implements Initializable {
         order.setOrderDate(LocalDateTime.parse(dateLabel.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS")));
         order.setOrderItems(new ArrayList<>(orderItemsListView.getItems()));
 
-        System.out.println(order.getOrderItems());
         if (orderItemsListView.getItems().size() == 0) return;
         Stage stage = (Stage) dateLabel.getScene().getWindow();
         stage.close();
