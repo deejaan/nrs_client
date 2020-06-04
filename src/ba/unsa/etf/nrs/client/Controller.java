@@ -23,8 +23,6 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     public ChoiceBox<String> filterOrdersChoiceBox;
     public Button orderDetailsButton;
-    public Button addOrderButton;
-    public Button editOrderButton;
     public Button completeOrderButton;
     public TableView<Order> ordersTable;
     public TableColumn<Order, Integer> orderIdColumn;

@@ -53,6 +53,12 @@ public class UserController implements Initializable {
     }
 
     public void confirm() {
+        if (firstNameTextField.getText().isEmpty()) return;
+        if (lastNameTextField.getText().isEmpty()) return;
+        if (usernameTextField.getText().isEmpty()) return;
+        if (emailTextField.getText().isEmpty()) return;
+        if (addressTextField.getText().isEmpty()) return;
+        if (passwordField.getText().isEmpty()) return;
         if (user == null) user = new User();
         user.setFirstName(firstNameTextField.getText());
         user.setLastName(lastNameTextField.getText());

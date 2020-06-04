@@ -42,6 +42,6 @@ public class OrderItem {
 
     @Override
     public String toString() {
-        return "orderItem#" + getId();
+        return getProduct() + " " + getQuantity();
     }
 }

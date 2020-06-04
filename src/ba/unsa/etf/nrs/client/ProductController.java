@@ -57,6 +57,8 @@ public class ProductController implements Initializable {
     }
 
     public void confirm() {
+        if (nameTextField.getText().isEmpty()) return;
+        if (descriptionTextArea.getText().isEmpty()) return;
         if (product == null) product = new Product();
         product.setName(nameTextField.getText());
         product.setDescription(descriptionTextArea.getText());
