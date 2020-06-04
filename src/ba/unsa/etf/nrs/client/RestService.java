@@ -158,6 +158,27 @@ public class RestService {
         }
     }
 
+    public ArrayList<Coupon> getCoupons() {
+        ArrayList<Coupon> coupons = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray(Objects.requireNonNull(getJSON(ROOT + "/api/coupons/")));
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject object = jsonArray.getJSONObject(i);
+            Coupon coupon = new Coupon();
+            coupon.setId(object.getInt("id"));
+            coupon.setCode(object.getString("code"));
+            coupon.setDiscount(object.getDouble("discount"));
+            try {
+                coupon.setUsed(object.getBoolean("used"));
+            } catch (Exception e) {
+                int used = object.getInt("used");
+                coupon.setUsed(used != 0);
+            }
+            coupon.setExpiryDate(LocalDateTime.parse(object.getString("expiryDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
+            coupons.add(coupon);
+        }
+        return coupons;
+    }
+
     public Coupon getCoupon(int id) {
         try {
             JSONObject jsonObject = new JSONObject(Objects.requireNonNull(getJSON(ROOT + "/api/coupon/" + id)));
@@ -165,7 +186,12 @@ public class RestService {
             coupon.setId(jsonObject.getInt("id"));
             coupon.setCode(jsonObject.getString("code"));
             coupon.setDiscount(jsonObject.getDouble("discount"));
-            coupon.setUsed(jsonObject.getBoolean("used"));
+            try {
+                coupon.setUsed(jsonObject.getBoolean("used"));
+            } catch (Exception e) {
+                int used = jsonObject.getInt("used");
+                coupon.setUsed(used != 0);
+            }
             coupon.setExpiryDate(LocalDateTime.parse(jsonObject.getString("expiryDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
             return coupon;
         } catch (Exception e) {
@@ -215,6 +241,7 @@ public class RestService {
             }
             orders.add(order);
         }
+
         return orders;
     }
 
@@ -533,16 +560,18 @@ public class RestService {
 
             JSONObject jsonParam = new JSONObject();
             jsonParam.put("orderDate", order.getOrderDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
-            jsonParam.put("couponId", 1);
+            jsonParam.put("cuponId", order.getCoupon().getId());
             jsonParam.put("userId", order.getUser().getId());
-            jsonParam.put("completed", !order.getStatus().equals(Status.ACTIVE));
 
             JSONArray jsonArray = new JSONArray();
+
+            System.out.println(order.getCoupon());
 
             for (OrderItem orderItem : order.getOrderItems()) {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("quantity", orderItem.getQuantity());
                 jsonObject.put("productId", orderItem.getProduct().getId());
+                jsonArray.put(jsonObject);
             }
 
             jsonParam.put("orderItems", jsonArray);
@@ -579,7 +608,7 @@ public class RestService {
 
             JSONObject jsonParam = new JSONObject();
             jsonParam.put("orderDate", order.getOrderDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
-            jsonParam.put("couponId", 1);
+            jsonParam.put("couponId", order.getCoupon().getId());
             jsonParam.put("userId", order.getUser().getId());
             jsonParam.put("completed", !order.getStatus().equals(Status.ACTIVE));
 
@@ -589,6 +618,7 @@ public class RestService {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("quantity", orderItem.getQuantity());
                 jsonObject.put("productId", orderItem.getProduct().getId());
+                jsonArray.put(jsonObject);
             }
 
             jsonParam.put("orderItems", jsonArray);
